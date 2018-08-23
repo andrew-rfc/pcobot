@@ -21,7 +21,7 @@ class ScheduledAnnounce(WillPlugin):
     def announce_birthdays(self):
         birthday.announce_todays_birthdays(self, channel=self.announcement_channel())
 
-    @respond_to("(!setannouncements)(?P<channel>.*?(?=(?:\?)|$))", acl=["admins"])
+    @respond_to("(!setannouncements)(?P<channel>.*?(?=(?:\?)|$))")
     def set_anounce_chan(self, channel):
         announce_chan = self.announcement_channel(channel=channel)
         self.reply(self, "Announcement channel is set to %s" % announce_chan)
