@@ -5,14 +5,14 @@ from plugins.pco import birthday, address, phone_numbers, checkins, msg_attachme
 
 class ScheduledAnnounce(WillPlugin):
 
-    def announcement_channel(self, channel=None):
+    def announcement_channel(self, passed_channel=None):
         """"If you pass a channel it will save it as the announcement channel, and return the announcement channel.
         If you pass no channel it will return the saved channel. If no channel is set it defaults to the announcements
         channel."""
-        if not self.load("announcement_channel") and channel is None:
+        if not self.load("announcement_channel") and passed_channel is None:
             self.save("announcement_channel", "announcements")
         elif channel:
-            self.save("announcement_channel", channel)
+            self.save("announcement_channel", passed_channel)
         return self.load("announcement_channel")
 
     # @hear("announce birthdays")
@@ -21,9 +21,9 @@ class ScheduledAnnounce(WillPlugin):
     def announce_birthdays(self):
         birthday.announce_todays_birthdays(self, channel=self.announcement_channel())
 
-    @respond_to("(!setannouncements)(?P<channel>.*?(?=(?:\?)|$))")
-    def set_anounce_chan(self, channel):
-        announce_chan = self.announcement_channel(channel=channel)
+    @respond_to("(!setannouncements)(?P<channelname>.*?(?=(?:\?)|$))")
+    def set_anounce_chan(self, channelname):
+        announce_chan = self.announcement_channel(channelname)
         self.reply(self, "Announcement channel is set to %s" % announce_chan)
 
 
